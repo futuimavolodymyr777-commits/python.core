@@ -16,7 +16,7 @@ if n == "1":
             count = count + 1
     print("количество предложений:", count)
 
-#2 проверка на палиндром 
+#2 палиндром.
 elif n == "2":
     text = input("введите строку: ")
     text = text.replace(" ", "").lower()
