@@ -1,85 +1,90 @@
-# меню
-print("1 - подсчет предложений")
-print("2 - проверка на палиндром")
-print("3 - зарезервированные слова в верхний регистр")
-print("4 - удаление символов между двумя символами")
-print("5 - удаление слов с заданными символами")
+print("1 - предложения")
+print("2 - палиндром")
+print("3 - зарезервированные слова")
+print("4 - удалить между символами")
+print("5 - удалить слова с символами")
 print("6 - переворот слов")
 
-choice = input("выберите номер задания: ")
+n = input("номер задания: ")
 
-#задание 1
-if choice == "1":
+# 1 считаем конец предложений
+if n == "1":
     text = input("введите текст: ")
-    # считаем точки восклицателные и вопросительные знаки
-    count = text.count(".") + text.count("!") + text.count("?")
+    count = 0
+    for c in text:
+        if c == "." or c == "!" or c == "?":
+            count = count + 1
     print("количество предложений:", count)
 
-#задание 2
-elif choice == "2":
+# 2 проверка на палиндром
+elif n == "2":
     text = input("введите строку: ")
-    # убираем пробелы и делаем маленькие буквы
     text = text.replace(" ", "").lower()
-    # сравниваем строку с перевкрнутой
-    if text == text[::-1]:
-        print("это палиндром")
-    else:
-        print("это не палиндром")
 
-#задание 3
-elif choice == "3":
-    reserved = ["if", "else", "for", "while", "return"]
+    rev = ""
+    i = len(text) - 1
+    while i >= 0:
+        rev = rev + text[i]
+        i = i - 1
+
+    if text == rev:
+        print("палиндром")
+    else:
+        print("не палиндром")
+
+# 3 делаем нужные слова большими
+elif n == "3":
     text = input("введите текст: ")
     words = text.split()
 
-    for i in range(len(words)):
-        if words[i].lower() in reserved:
-            words[i] = words[i].upper()
+    for word in words:
+        if word == "if" or word == "else" or word == "for" or word == "while" or word == "return":
+            print(word.upper(), end=" ")
+        else:
+            print(word, end=" ")
 
-    print("измененный текст:")
-    print(" ".join(words))
-
-#задание 4
-elif choice == "4":
+# 4 вырезаем кусок между символами
+elif n == "4":
     text = input("введите строку: ")
-    a = input("введите первый символ: ")
-    b = input("введите второй символ: ")
+    a = input("первый символ: ")
+    b = input("второй символ: ")
 
     start = text.find(a)
     end = text.find(b)
 
-    # если оба символа найдены
     if start != -1 and end != -1 and start < end:
-        text = text[:start] + text[end+1:]
+        i = 0
+        while i < len(text):
+            if i < start or i > end:
+                print(text[i], end="")
+            i = i + 1
+    else:
+        print(text)
 
-    print("результат:", text)
-
-#задание 5
-elif choice == "5":
+# 5 убираем слова с лишними символами
+elif n == "5":
     text = input("введите текст: ")
-    symbols = input("введите набор символов: ")
+    symbols = input("введите символы: ")
 
     words = text.split()
-    result = []
 
     for word in words:
         delete = False
         for s in symbols:
             if s in word:
                 delete = True
-        if not delete:
-            result.append(word)
+        if delete == False:
+            print(word, end=" ")
 
-    print("результат:")
-    print(" ".join(result))
-
-#задание 6
-elif choice == "6":
+# 6 выводим слова наоборот
+elif n == "6":
     text = input("введите текст: ")
     words = text.split()
-    words.reverse()  # переворачиваем спмсок слов
-    print("обратный текст:")
-    print(" ".join(words))
+
+    i = len(words) - 1
+    while i >= 0:
+        print(words[i], end=" ")
+        i = i - 1
 
 else:
-    print("неверный выбор")
+    print("неверный номер")
