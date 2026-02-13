@@ -1,90 +1,122 @@
-print("1 - предложения")
-print("2 - палиндром")
-print("3 - зарезервированные слова")
-print("4 - удалить между символами")
-print("5 - удалить слова с символами")
-print("6 - переворот слов")
+def figure_e():
+    #крест
+    for i in range(5):
+        for j in range(5):
+            if i == j or i + j == 4:
+                print("*", end="")
+            else:
+                print(" ", end="")
+        print()
 
-n = input("номер задания: ")
+def figure_zh():
+    #треугольник вправо
+    for i in range(5):
+        for j in range(5):
+            if j >= i:
+                print("*", end="")
+            else:
+                print(" ", end="")
+        print()
 
-# 1 считаем конец предложений
-if n == "1":
-    text = input("введите текст: ")
-    count = 0
-    for c in text:
-        if c == "." or c == "!" or c == "?":
-            count = count + 1
-    print("количество предложений:", count)
+def figure_z():
+    #треугольник влево
+    for i in range(5):
+        for j in range(5):
+            if j <= i:
+                print("*", end="")
+            else:
+                print(" ", end="")
+        print()
 
-# 2 проверка на палиндром
-elif n == "2":
-    text = input("введите строку: ")
-    text = text.replace(" ", "").lower()
+def figure_i():
+    #диагональ снизу вверх
+    for i in range(5):
+        for j in range(5):
+            if j >= i:
+                print("*", end="")
+            else:
+                print(" ", end="")
+        print()
 
-    rev = ""
-    i = len(text) - 1
-    while i >= 0:
-        rev = rev + text[i]
-        i = i - 1
+def figure_k():
+    #диагональ сверху-вниз
+    for i in range(5):
+        for j in range(5):
+            if j <= i:
+                print("*", end="")
+            else:
+                print(" ", end="")
+        print()
 
-    if text == rev:
-        print("палиндром")
-    else:
-        print("не палиндром")
+def figure_a():
+    #диагональ снизу влево
+    for i in range(5):
+        for j in range(5):
+            if j >= i:
+                print(" ", end="")
+            else:
+                print("*", end="")
+        print()
 
-# 3 делаем нужные слова большими
-elif n == "3":
-    text = input("введите текст: ")
-    words = text.split()
+def figure_b():
+    #диагональ снизу вправо
+    for i in range(5):
+        for j in range(5):
+            if j <= i:
+                print(" ", end="")
+            else:
+                print("*", end="")
+        print()
 
-    for word in words:
-        if word == "if" or word == "else" or word == "for" or word == "while" or word == "return":
-            print(word.upper(), end=" ")
-        else:
-            print(word, end=" ")
+def figure_v():
+    #треугольник вниз
+    for i in range(5):
+        for j in range(5):
+            if j >= i and j <= 4 - i:
+                print("*", end="")
+            else:
+                print(" ", end="")
+        print()
 
-# 4 вырезаем кусок между символами
-elif n == "4":
-    text = input("введите строку: ")
-    a = input("первый символ: ")
-    b = input("второй символ: ")
+def figure_g():
+    #треугольник вверх
+    for i in range(5):
+        for j in range(5):
+            if j <= i and j >= 4 - i:
+                print("*", end="")
+            else:
+                print(" ", end="")
+        print()
 
-    start = text.find(a)
-    end = text.find(b)
+def figure_d():
+    #крест
+    for i in range(5):
+        for j in range(5):
+            if i == j or i + j == 4:
+                print("*", end="")
+            else:
+                print(" ", end="")
+        print()
 
-    if start != -1 and end != -1 and start < end:
-        i = 0
-        while i < len(text):
-            if i < start or i > end:
-                print(text[i], end="")
-            i = i + 1
-    else:
-        print(text)
+# ловарь фигур
+figures = {
+    "е": figure_e,
+    "ж": figure_zh,
+    "з": figure_z,
+    "и": figure_i,
+    "к": figure_k,
+    "а": figure_a,
+    "б": figure_b,
+    "в": figure_v,
+    "г": figure_g,
+    "д": figure_d
+}
 
-# 5 убираем слова с лишними символами
-elif n == "5":
-    text = input("введите текст: ")
-    symbols = input("введите символы: ")
+# меню
+print("доступные фигуры: е, ж, з, и, к, а, б, в, г, д")
+choice = input("выберите фигуру: ")
 
-    words = text.split()
-
-    for word in words:
-        delete = False
-        for s in symbols:
-            if s in word:
-                delete = True
-        if delete == False:
-            print(word, end=" ")
-
-# 6 выводим слова наоборот
-elif n == "6":
-    text = input("введите текст: ")
-    words = text.split()
-
-    i = len(words) - 1
-    while i >= 0:
-        print(words[i], end=" ")
-        i = i - 1
-
+if choice in figures:
+    figures[choice]()
 else:
-    print("неверный номер")
+    print("такой фигуры нет")
