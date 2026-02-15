@@ -98,7 +98,7 @@ def figure_d():
                 print(" ", end="")
         print()
 
-# ловарь фигур
+#словарь фигур
 figures = {
     "е": figure_e,
     "ж": figure_zh,
