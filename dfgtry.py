@@ -1,78 +1,89 @@
 import random
 
 #задание 1
-#рекурсия чтобы посчитать степень
+#считаем степень через рекурсию
 
-def power(a, n):
-    #если степень 0 то ответ 1
-    if n == 0:
+def power(number, degree):
+    #если степень 0 → всегда 1
+    if degree == 0:
         return 1
-    #иначе просто умножаем и уменьшаем степень
-    return a * power(a, n-1)
+    
+    #умножаем число и уменьшаем степень
+    return number * power(number, degree - 1)
 
-print(power(2,5))  # чек
+print("степень:", power(2,5))
 
 
 #задание 2
 #чек високосный год или нет
 
-def leap(y):
-    return (y%4==0 and y%100!=0) or y%400==0
+def is_leap_year(year):
+    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
 
 
-#переводим дату в дни (чтобы потом вычесть)
-def days(d,m,y):
+#переводим дату в общее количество дней
+#типа считаем сколько дней прошло
 
-    months=[31,28,31,30,31,30,31,31,30,31,30,31]
-    total=d
+def date_to_days(day, month, year):
+
+    month_days = [31,28,31,30,31,30,31,31,30,31,30,31]
+
+    total_days = day
 
     #накидываем дни за прошлые года
-    for i in range(1,y):
-        total+=366 if leap(i) else 365
+    for current_year in range(1, year):
+        if is_leap_year(current_year):
+            total_days += 366
+        else:
+            total_days += 365
 
     #накидываем дни за месяцы
-    for i in range(m-1):
-        total+=months[i]
+    for current_month in range(month-1):
+        total_days += month_days[current_month]
 
-    #если после февраля в високосный год
-    if m>2 and leap(y):
-        total+=1
+    #если после февраля и год високосный
+    if month > 2 and is_leap_year(year):
+        total_days += 1
 
-    return total
+    return total_days
 
 
-#разница между датами
-def diff(d1,m1,y1,d2,m2,y2):
-    return abs(days(d1,m1,y1)-days(d2,m2,y2))
+#считаем разницу между двумя датами
+def days_difference(day1, month1, year1, day2, month2, year2):
+    return abs(date_to_days(day1,month1,year1) - date_to_days(day2,month2,year2))
 
-print(diff(1,1,2024,10,1,2024))  # чек
+print("разница дней:", days_difference(1,1,2024,10,1,2024))
 
 
 #задание 3
-#генерим 100 рандомных чисел
+#генерим список из 100 случайных чисел
 
-nums=[random.randint(-100,100) for _ in range(100)]
+numbers = [random.randint(-100,100) for i in range(100)]
 
 
-#рекурсивно ищем где 10 чисел дают мин сумму
-def find_min(a,i=0,best=None,pos=0):
+#рекурсивно ищем где начинается кусок из 10 чисел
+#у которого самая маленькая сумма
 
-    #если почти конец списка
-    if i>len(a)-10:
-        return pos
+def find_min_sum_position(numbers_list, index=0, min_sum=None, min_position=0):
 
-    s=sum(a[i:i+10])  # сумма 10 чисел
+    #если уже конец списка
+    if index > len(numbers_list) - 10:
+        return min_position
+
+    #сумма текущих 10 чисел
+    current_sum = sum(numbers_list[index:index+10])
 
     #если нашли меньше
-    if best is None or s<best:
-        best=s
-        pos=i
+    if min_sum is None or current_sum < min_sum:
+        min_sum = current_sum
+        min_position = index
 
-    #идём дальше
-    return find_min(a,i+1,best,pos)
+    #идем дальше
+    return find_min_sum_position(numbers_list, index+1, min_sum, min_position)
 
 
-p=find_min(nums)
+position = find_min_sum_position(numbers)
 
-print("позиция:",p)
-print("сумма:",sum(nums[p:p+10]))
+print("позиция:", position)
+print("10 чисел:", numbers[position:position+10])
+print("сумма:", sum(numbers[position:position+10]))
